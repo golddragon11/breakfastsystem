@@ -325,25 +325,7 @@
       "resolved": "https://registry.npmjs.org/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz",
       "version": "1.0.2"
     },
-    "morgan": {
-      "dependencies": {
-        "depd": {
-          "integrity": "sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==",
-          "resolved": "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz",
-          "version": "2.0.0"
-        }
-      },
-      "integrity": "sha512-AbegBVI4sh6El+1gNwvD5YIck7nSA36weD7xvIxG4in80j/UoK8AEGaWnnz8v1GxonMCltmlNs5ZKbGvl9b1XQ==",
-      "requires": {
-        "basic-auth": "~2.0.1",
-        "debug": "2.6.9",
-        "depd": "~2.0.0",
-        "on-finished": "~2.3.0",
-        "on-headers": "~1.0.2"
-      },
-      "resolved": "https://registry.npmjs.org/morgan/-/morgan-1.10.0.tgz",
-      "version": "1.10.0"
-    },
+    "morgan": "^1.10.0",
     "mpath": {
       "integrity": "sha512-norEinle9aFc05McBawVPwqgFZ7npkts9yu17ztIVLwPwO9rq0OTp89kGVTqvv5rNLMz96E5iWHpVORjI411vA==",
       "resolved": "https://registry.npmjs.org/mpath/-/mpath-0.8.1.tgz",
