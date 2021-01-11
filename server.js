@@ -12,9 +12,18 @@ const order = require('./DB/function/orderfunction.js')
 const cart = require('./DB/function/cartfunction.js')
 const User = require('./DB/model/user.js')
 const Order = require('./DB/model/order.js')
+const Single = require('./DB/model/single.js')
+const Set = require('./DB/model/set.js')
 const WebSocket = require('ws');
 const { response } = require('express');
-var order_id = 2;
+const schedule = require('node-schedule');
+
+var order_id = 1;
+
+schedule.scheduleJob('0 0 * * *', () => {
+    order_id = 1;
+})
+
 var web_user;
 
 const app = express()
@@ -106,8 +115,16 @@ app.post('/editmenumiddle.html', function(req, res) {
     res.redirect('/editmenu.html')
 })
 
-app.delete('/editmenumiddle.html', function(req, res) {
-    single.SingleDelete(req.body.name)
+app.get('/delete_single', function(req, res) {
+    Single.findByIdAndDelete(req.query.delete_id, function (err, docs) { 
+        if (err){ 
+            console.log(err) 
+        } 
+        else{ 
+            console.log("Deleted : ", docs); 
+        } 
+    }); 
+    console.log(req.query.delete_id)
     res.redirect('/editmenu.html')
 })
 
@@ -171,6 +188,17 @@ app.post('/reg.html', function (req, res) {
     });
 });
 
+app.post('/historyorder.html', function(req, res) {
+    Order.find({state: 4})
+    .then((response) => {
+        res.json(response);
+    })
+    .catch((error) => {
+        console.log('Find history order error!');
+    })
+    res.redirect('/historyorder.html');
+});
+
 app.get('/state2',function(req,res){
     var order_id = req.query.order_id;
     var user;
@@ -217,8 +245,17 @@ app.post('/send_cart', function(req, res){
         state: 2,
         price: 0,
         food_id: [],
-        set_id: []
+        set_id: [],
+        pickupTime: new Date()
     };
+    var str = req.body.appt
+    var time = str.match( /(\d+)\:(\d+)/ );
+    var date = new Date()
+    date.setHours(parseInt(time[1]))
+    date.setMinutes(parseInt(time[2]))
+    postData.pickupTime = date
+    // console.log(date)
+    // console.log(req.body.appt)
     if (Array.isArray(req.body.cart.num)) {
         for(var i = 0; i < req.body.cart.num.length; i++) {
             // console.log(req.body.cart.id[i])
@@ -257,7 +294,7 @@ app.get('/show_all_order', function(req, res) {
 })
 
 app.get('/show_all_active_order', function(req, res) {
-    Order.find({$or: [{state: 2}, {state: 3}] }) 
+    Order.find({$or: [{state: 2}, {state: 3}] }).sort('createdAt')
     .then(response =>{
         // console.log(response)
         res.json(response)
@@ -287,6 +324,31 @@ app.get('/my_active_order', function(req, res) {        // 顧客顯示個人訂
     .catch(error =>{
         console.log('No Active order')
     });
+})
+
+app.post('/new_set', function(req, res) {
+    console.log(req.body)
+    var postData = {
+        set_name: req.body.Name, 
+        price: req.body.Price,
+        description: req.body.Introduce,
+        food_id : []
+    }
+    if (Array.isArray(req.body.set.id)) {
+        for(var i = 0; i < req.body.set.id.length; i++) {
+            postData.food_id.push(req.body.set.id[i])
+        }
+    }
+    else {
+        console.log('Not a set')
+        postData.food_id.push(req.body.set.id)
+    }
+    console.log(postData)
+    Set.create(postData, function (err, data) {
+        if (err) throw err;
+        console.log('Successfully created set');
+    })
+    res.redirect('manage.html');
 })
 
 app.get('/mark_as_done', function(req, res) {

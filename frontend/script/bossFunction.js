@@ -3,12 +3,16 @@ var request = new XMLHttpRequest();
 // var url = "http://localhost:3000/"
 var url = "https://raw.githubusercontent.com/YukiHime-TW/breakfastsystem/master/frontend/script/test.json";
 var url1 = "https://raw.githubusercontent.com/YukiHime-TW/breakfastsystem/master/frontend/script/order.json";
-var mainURL = "https://hidden-garden-96019.herokuapp.com"
+// var mainURL = "https://hidden-garden-96019.herokuapp.com"
+var mainURL = "http://localhost:3000"
 
 var div = new Array(0);
 var image = new Array(0);
 var td_item_state_value = new Array(0);
 var button = new Array(0);
+var button1 = new Array(0);
+var button2 = new Array(0);
+var set_name = new Array(0);
 
 function init() {
     request.open("GET", mainURL + "/get_menu", true);
@@ -95,6 +99,7 @@ function editInit() {
         document.getElementById("name").value = localStorage.getItem("name");
         document.getElementById("description").value = localStorage.getItem("description");
         document.getElementById("price").value = localStorage.getItem("price");
+        document.getElementById("delete_id").value = localStorage.getItem("id");
         console.log(json);
     };
     request.send(null);
@@ -269,8 +274,13 @@ function AllorderInit() {
     request.send(null);
 }
 
+function AllorderExtend(i) {
+    $(".panel"+i).slideToggle("slow");
+ ;
+}
+
 function NewsetInit() {
-    request.open("GET", mainURL + "/get_menu", true);
+    request.open("GET", mainURL + '/get_menu', true);
     request.onload = function () {
         var json = JSON.parse(request.response);
         console.log(json);
@@ -305,27 +315,25 @@ function NewsetInit() {
 
 var tr_set = new Array(0);
 function AdddishtoSet(i) {
+    button1[i].disabled = true;
     var json = JSON.parse(request.response);
     var Set = document.getElementById("Set");
     var table = document.getElementById("Newset_table");
     var tbody = document.getElementById("Newset_tbody");
     var PutIn = document.createElement("input");
-    var button2 = document.createElement("div");
-    button2.innerHTML = "移除";
-    button2.setAttribute("class", "btn btn-warning");
-    button2.setAttribute("onclick", function del(i) {
-        var tbody = document.getElementById("Newset_tbody");
-        tbody.removeChild(tbody.childNodes[0]);
-    });
+    button2[i] = document.createElement("div");
+    button2[i].innerHTML = "移除";
+    button2[i].setAttribute("class", "btn btn-warning");
+    button2[i].setAttribute("onclick", `del(${i})`);
     PutIn.type = "hidden";
     PutIn.value = json[i]._id;
-    PutIn.name = "set" + i;
+    PutIn.name = `set[id]`;
     tr_set[i] = document.createElement("tr");
     var td0 = document.createElement("td");
     td0.innerHTML = json[i].food_name;
     var td1 = document.createElement("td");
     var td2 = document.createElement("td");
-    td2.appendChild(button2);
+    td2.appendChild(button2[i]);
     td1.innerHTML = json[i].price+"元";
     tr_set[i].appendChild(PutIn);
     tr_set[i].appendChild(td0);
@@ -335,4 +343,9 @@ function AdddishtoSet(i) {
     table.appendChild(tbody);
     Set.appendChild(table);
 
+}
+function del(i) {
+    button1[i].disabled = false;
+    var tbody = document.getElementById("Newset_tbody");
+    tbody.removeChild(tr_set[i]);
 }
