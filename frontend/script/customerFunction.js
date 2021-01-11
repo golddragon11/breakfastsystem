@@ -1,6 +1,6 @@
 var request = new XMLHttpRequest();
-// var mainURL = "https://hidden-garden-96019.herokuapp.com";
-var mainURL = "http://localhost:3000"
+var mainURL = "https://hidden-garden-96019.herokuapp.com";
+// var mainURL = "http://localhost:3000"
 var url = "http://localhost:3000/get_menu";
 var cart_url = "";
 var div = new Array(0);
