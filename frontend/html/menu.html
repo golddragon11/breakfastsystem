@@ -36,8 +36,10 @@
             window.WebSocket = window.MozWebSocket;
         }
         if (window.WebSocket) {
+            var HOST = location.origin.replace(/^http/, 'ws')
+            var ws = new WebSocket(HOST);
             // socket = new WebSocket("ws://localhost:3000/");
-            socket = new WebSocket("ws://hidden-garden-96019.herokuapp.com/");
+            // socket = new WebSocket("ws://hidden-garden-96019.herokuapp.com/");
             socket.onmessage = function (event) {
                 alert(event.data);
             };
