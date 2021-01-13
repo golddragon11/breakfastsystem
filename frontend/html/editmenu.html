@@ -39,7 +39,10 @@
         if (window.WebSocket) {
             socket = new WebSocket("ws://localhost:3000/");
             socket.onmessage = function (event) {
-                alert(event.data);
+                if(confirm(event.data)==true)
+                    window.location.replace("/accept");
+                else
+                    window.location.replace("/refuse");
             };
             socket.onopen = function (event) {
                 var str=document.cookie;
