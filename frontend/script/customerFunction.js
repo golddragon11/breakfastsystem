@@ -1,6 +1,6 @@
 var request = new XMLHttpRequest();
-// var mainURL = "https://hidden-garden-96019.herokuapp.com";
-var mainURL = "http://localhost:3000"
+var mainURL = "https://hidden-garden-96019.herokuapp.com";
+// var mainURL = "http://localhost:3000"
 var url = "http://localhost:3000/get_menu";
 var cart_url = "";
 var div = new Array(0);
@@ -47,7 +47,7 @@ function init() {
 }
 
 function menuInit() {
-  request.open("GET", url, true);
+  request.open("GET", mainURL + "/get_menu", true);
   request.onload = function () {
     var json = JSON.parse(request.response);
     document.getElementById("food_id").value = json[0]._id;
