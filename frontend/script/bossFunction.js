@@ -4,7 +4,8 @@ var request = new XMLHttpRequest();
 var url = "https://raw.githubusercontent.com/YukiHime-TW/breakfastsystem/master/frontend/script/test.json";
 var url1 = "https://raw.githubusercontent.com/YukiHime-TW/breakfastsystem/master/frontend/script/order.json";
 // var mainURL = "https://hidden-garden-96019.herokuapp.com"
-var mainURL = "http://localhost:3000"
+// var mainURL = "http://localhost:3000"
+var mainURL = "https://breakfast-system.herokuapp.com"
 
 var div = new Array(0);
 var image = new Array(0);
