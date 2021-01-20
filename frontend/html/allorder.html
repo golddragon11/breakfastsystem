@@ -47,13 +47,26 @@
         window.onload = AllorderInit();
     </script>
 
+            var year = date_now.getFullYear();
+
+            var month = date_now.getMonth() + 1 < 10 ? "0" + (date_now.getMonth() + 1) : (date_now.getMonth() + 1);
+
+            var date = date_now.getDate() < 10 ? "0" + date_now.getDate() : date_now.getDate();
+            $("#birthday").attr("max", year + "-" + month + "-" + date);
+            $("#birthday").val(year + "-" + month + "-" + date);
+        })
+    </script>
+    <script>
+        window.onload = AllorderInit();
+    </script>
+
     <script type="text/javascript">
         var socket;
         if (!window.WebSocket) {
             window.WebSocket = window.MozWebSocket;
         }
         if (window.WebSocket) {
-            socket = new WebSocket("ws://localhost:3000/");
+            socket = new WebSocket("ws://" + window.location.hostname + "/");
             socket.onmessage = function (event) {
                 if(confirm(event.data)==true)
                     window.location.replace("/accept");
@@ -118,6 +131,10 @@
     <div id="All_order" style="margin-top: 3%;">
 
     </div>
+            <div>
+                <button type="button" onclick="window.location='manage.html'" class="btn btn-warning"
+                    style="position: absolute;bottom: 0px;right: 0px;">取消</button>
+            </div>
 </body>
 
 </html>
